@@ -248,6 +248,12 @@ local function playlists()
 	end
 	local play_btn = layout:setPosition(1, 1, layout:addChild(GUI.roundedButton(1, 1, 7, 3, 0xFFFFFF, 0x555555, 0x880000, 0xFFFFFF, "▷")))
   
+	if player.isPlaying then
+		play_btn.text = "▐█▌"
+		current_label.text = "Now Playing: " .. player.current.name
+		workspace:draw()
+	end
+  
 	player.onEnd = function()
 		play_btn.text = "▷"
 		current_label.text = " "
@@ -404,6 +410,12 @@ local function loctracks()
 	end
 	local play_btn = layout:setPosition(1, 1, layout:addChild(GUI.roundedButton(1, 1, 7, 3, 0xFFFFFF, 0x555555, 0x880000, 0xFFFFFF, "▷")))
   
+	if player.isPlaying then
+		play_btn.text = "▐█▌"
+		current_label.text = "Now Playing: " .. player.current.name
+		workspace:draw()
+	end
+
 	player.onEnd = function()
 		play_btn.text = "▷"
 		current_label.text = " "
@@ -538,7 +550,7 @@ local function cltracks(_, itm)
 			tr_list:removeChildren()
 			for i = 1, #res.tracks do
 				local item = tr_list:addItem(percentDecode(res.tracks[i].name))
-				item.track = {name = percentDecode(res.tracks[i].name), url = percentDecode(res.tracks[i].url), duration = 9999999, author_id=res.tracks[i].author_id, id=res.tracks[i].id}
+				item.track = {name = percentDecode(res.tracks[i].name), url = percentDecode(res.tracks[i].url), duration = res.tracks[i].duration, author_id=res.tracks[i].author_id, id=res.tracks[i].id}
 				item.onTouch = function()
 					if tr_list.onItemsTouch ~= nil then
 						tr_list:onItemsTouch()
@@ -630,6 +642,12 @@ local function cltracks(_, itm)
 
 	local play_btn = layout:setPosition(1, 1, layout:addChild(GUI.roundedButton(1, 1, 7, 3, 0xFFFFFF, 0x555555, 0x880000, 0xFFFFFF, "▷")))
   
+	if player.isPlaying then
+		play_btn.text = "▐█▌"
+		current_label.text = "Now Playing: " .. player.current.name
+		workspace:draw()
+	end
+
 	player.onEnd = function()
 		play_btn.text = "▷"
 		current_label.text = " "
