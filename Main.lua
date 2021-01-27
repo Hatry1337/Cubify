@@ -117,7 +117,7 @@ if internetFeatures then
 			Config.authtoken = nil
 			Config.userid = nil
 			Config.username = nil
-			save_cfg()
+			save_cfg(Config)
 		else
 			if res.authtoken then
 				Config.authtoken = res.authtoken
