@@ -747,7 +747,11 @@ local function settings()
 			container.layout:addChild(GUI.roundedButton(1, 1, 20, 3, 0xFFFFFF, 0x555555, 0x880000, 0xFFFFFF, "Log-In")).onTouch = function()
 				local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/account/login", {username=uname.text, password=passwd.text})
 				if not res then
-					GUI.alert(reason)
+					if string.match(reason, "400") then
+						GUI.alert("Error: Wrong Username or Password")
+					else
+						GUI.alert(reason)
+					end
 					return
 				else
 					if res.authtoken then
@@ -775,9 +779,13 @@ local function settings()
 			container.layout:addChild(GUI.roundedButton(1, 1, 20, 3, 0xFFFFFF, 0x555555, 0x880000, 0xFFFFFF, "Register")).onTouch = function()
 				local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/account/register", {username=uname.text, email=email.text, password=passwd.text})
 				if not res then
-					GUI.alert(reason)
+					if string.match(reason, "400") then
+						GUI.alert("Error: Incorrect input. Try to change Username, E-Mail, or Password.")
+					else
+						GUI.alert(reason)
+					end
 					return
-				else
+				else	
 					if res.authtoken then
 						Config.authtoken = res.authtoken
 						Config.userid = res.userid
