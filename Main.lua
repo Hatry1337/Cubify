@@ -780,7 +780,7 @@ local function settings()
 				local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/account/register", {username=uname.text, email=email.text, password=passwd.text})
 				if not res then
 					if string.match(reason, "400") then
-						GUI.alert("Error: Incorrect input. Try to change Username, E-Mail, or Password.")
+						GUI.alert("Error: Incorrect input. Try to change Username, E-Mail, or Password.\nRequirements for Login: [aA-zZ, 0-9, -_], length <= 20\nRequirements for Email: [name@domain.com]\nRequirements for Password: [aA-zZ, 0-9, -_!@#$%^&*], 10 < length <= 30")
 					else
 						GUI.alert(reason)
 					end
