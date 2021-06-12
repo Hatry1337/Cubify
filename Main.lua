@@ -830,6 +830,20 @@ local function settings()
 	end
 end
 
+local function MessageBox(header, width, height)
+	local bg_panel = window:addChild(GUI.panel(1, 1, window.width, window.height, 0x000000, 0.7))
+	local mb_window = window:addChild(GUI.titledWindow(math.ceil(window.width / 2 - width / 2), math.ceil(window.height / 2 - height / 2) + 1, width, height, header))
+	mb_window.actionButtons.maximize:remove()
+	mb_window.actionButtons.minimize:remove()
+	mb_window:addChild(GUI.panel(1, 2, width, height-1, 0x3c3c3c))
+	mb_window.bgPanel = bg_panel
+	mb_window.actionButtons.close.onTouch = function()
+		bg_panel:remove()
+		mb_window:remove()
+	end
+	return mb_window
+end
+
 
 playlists()
 leftList:addItem("Playlists").onTouch = playlists
@@ -843,6 +857,25 @@ window.actionButtons.close.onTouch = function()
 	player:stop()
 	player.radio.setScreenText("Cubify")
 	window:remove()
+end
+
+if not Config.FormatMsg then
+	local mbox = MessageBox("Read this shit pls!", 50, 20)
+	local layout = mbox:addChild(GUI.layout(1, 2, mbox.width, mbox.height-1, 1, 3))
+
+	layout:setRowHeight(1, GUI.SIZE_POLICY_ABSOLUTE, 11)
+	layout:setRowHeight(2, GUI.SIZE_POLICY_ABSOLUTE, 3)
+	layout:setRowHeight(3, GUI.SIZE_POLICY_ABSOLUTE, 5)
+	layout:setDirection(1, 1, GUI.DIRECTION_HORIZONTAL)
+
+	layout:setPosition(1, 1, layout:addChild(GUI.textBox(1, 2, 50, 11, 0x3c3c3c, 0xd2d2d2, {"Cubify app supports only MPEG 1/2/3 format and OGG Vorbis streams (OpenFM restrictions). So please, make sure that your tracks uses one of those formats before uploading them to our cloud or leave a bad review.\nP.S YOUTUBE LINKS OR SOMETHING LIKE THIS DOESN'T WORK!!!!!!!! STOP USE THEM!!!!!!\nP.S 2 Also read this: https://github.com/Hatry1337/Cubify#readme"}, null, 1, 1, true)):setAlignment(GUI.ALIGNMENT_HORIZONTAL_CENTER, GUI.ALIGNMENT_VERTICAL_TOP))
+	local sw = layout:setPosition(1, 2, layout:addChild(GUI.switchAndLabel(1, 1, 25, 5, 0x66DB80, 0x1D1D1D, 0xEEEEEE, 0x999999, "Don't show again", false)))
+	layout:setPosition(1, 3, layout:addChild(GUI.roundedButton(1, 1, 14, 3, 0x696969, 0xFFFFFF, 0x2D2D2D, 0xFFFFFF, "Accept"))).onTouch = function()
+		Config.FormatMsg = sw.switch.state
+		save_cfg(Config)
+		mbox.bgPanel:remove()
+		mbox:remove()
+	end
 end
 
 --------------------------------------------------------------------------------------------------------------------------------------
