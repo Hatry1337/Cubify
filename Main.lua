@@ -112,7 +112,7 @@ end
 
 if internetFeatures then
 	if Config.authtoken then
-		local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/account/getinfo")
+		local res, reason = APIRequest("https://api.irisdev.xyz/cubify/account/getinfo")
 		if not res then
 			Config.authtoken = nil
 			Config.userid = nil
@@ -376,7 +376,7 @@ local function loctracks()
     	local uplbtn = btnslay:addChild(GUI.roundedButton(1, 1, 10, 3, 0xFFFFFF, 0x555555, 0x880000, 0xFFFFFF, "Upload!"))
     	uplbtn.disabled = not internetFeatures
     	uplbtn.onTouch = function()
-			local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/tracks/upload", {track={name=getCurrTrack().name, url=getCurrTrack().url, duration=getCurrTrack().duration}})
+			local res, reason = APIRequest("https://api.irisdev.xyz/cubify/tracks/upload", {track={name=getCurrTrack().name, url=getCurrTrack().url, duration=getCurrTrack().duration}})
 			if not res then
 				GUI.alert(reason)
 				return
@@ -542,7 +542,7 @@ local function cltracks(_, itm)
 	local current_label = layout:setPosition(1, 4, layout:addChild(GUI.label(1, 1, layout.width-2, 1, 0xCCCCCC, " ")))
 
 	local function loadPage(p)
-		local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/tracks/page?page=" .. p .. "&count=19")
+		local res, reason = APIRequest("https://api.irisdev.xyz/cubify/tracks/page?page=" .. p .. "&count=19")
 		if not res then
 			GUI.alert(reason)
 			return
@@ -603,7 +603,7 @@ local function cltracks(_, itm)
 		btnslay:setDirection(1, 1, GUI.DIRECTION_HORIZONTAL)
 
 		btnslay:addChild(GUI.roundedButton(1, 1, 10, 3, 0xFF4940, 0xFFFFFF, 0x880000, 0xFFFFFF, "Remove!")).onTouch = function()
-			local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/tracks/remove", {trackid=getCurrTrack().id})
+			local res, reason = APIRequest("https://api.irisdev.xyz/cubify/tracks/remove", {trackid=getCurrTrack().id})
 			if not res then
 				GUI.alert(reason)
 				return
@@ -623,7 +623,7 @@ local function cltracks(_, itm)
 			if tonumber(tduration.text) ~= getCurrTrack().duration then
 				getCurrTrack().duration = tonumber(tduration.text)
 			end
-			local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/tracks/update", {track={id=getCurrTrack().id, name=getCurrTrack().name, url=getCurrTrack().url, getCurrTrack().duration}})
+			local res, reason = APIRequest("https://api.irisdev.xyz/cubify/tracks/update", {track={id=getCurrTrack().id, name=getCurrTrack().name, url=getCurrTrack().url, getCurrTrack().duration}})
 			if not res then
 				GUI.alert(reason)
 				return
@@ -745,7 +745,7 @@ local function settings()
 			local uname = container.layout:addChild(GUI.input(1, 1, 60, 3, 0xEEEEEE, 0x555555, 0x999999, 0xFFFFFF, 0x2D2D2D, "", "Username"))
 			local passwd = container.layout:addChild(GUI.input(1, 1, 60, 3, 0xEEEEEE, 0x555555, 0x999999, 0xFFFFFF, 0x2D2D2D, "", "Password", false, "*"))
 			container.layout:addChild(GUI.roundedButton(1, 1, 20, 3, 0xFFFFFF, 0x555555, 0x880000, 0xFFFFFF, "Log-In")).onTouch = function()
-				local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/account/login", {username=uname.text, password=passwd.text})
+				local res, reason = APIRequest("https://api.irisdev.xyz/cubify/account/login", {username=uname.text, password=passwd.text})
 				if not res then
 					if string.match(reason, "400") then
 						GUI.alert("Error: Wrong Username or Password")
@@ -777,7 +777,7 @@ local function settings()
 			local email = container.layout:addChild(GUI.input(1, 1, 60, 3, 0xEEEEEE, 0x555555, 0x999999, 0xFFFFFF, 0x2D2D2D, "", "E-Mail"))
 			local passwd = container.layout:addChild(GUI.input(1, 1, 60, 3, 0xEEEEEE, 0x555555, 0x999999, 0xFFFFFF, 0x2D2D2D, "", "Password", false, "*"))
 			container.layout:addChild(GUI.roundedButton(1, 1, 20, 3, 0xFFFFFF, 0x555555, 0x880000, 0xFFFFFF, "Register")).onTouch = function()
-				local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/account/register", {username=uname.text, email=email.text, password=passwd.text})
+				local res, reason = APIRequest("https://api.irisdev.xyz/cubify/account/register", {username=uname.text, email=email.text, password=passwd.text})
 				if not res then
 					if string.match(reason, "400") then
 						GUI.alert("Error: Incorrect input. Try to change Username, E-Mail, or Password.\n\nRequirements for Login: [aA-zZ, 0-9, -_], length <= 20\nRequirements for Email: [name@domain.com]\nRequirements for Password: [aA-zZ, 0-9, -_!@#$%^&*], 10 < length <= 30")
@@ -813,7 +813,7 @@ local function settings()
 				return
 			end
 
-			local res, reason = APIRequest("https://api.rainbowbot.xyz/cubify/account/logoutall", {})
+			local res, reason = APIRequest("https://api.irisdev.xyz/cubify/account/logoutall", {})
 			if not res then
 				GUI.alert(reason)
 				return
